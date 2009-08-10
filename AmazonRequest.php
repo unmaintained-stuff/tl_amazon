@@ -132,8 +132,12 @@ class AmazonRequest extends Request
 	public function addItemToCart($params, $cartID=NULL)
 	{
 		if(!$cartID)
+		{
+			// no cart yet, we have to create a new one.
+			$operation='CartCreate';
+		}
 			
-		return $this->execute('ListLookup', $params);
+		return $this->execute($operation, $params);
 	}
 
 	

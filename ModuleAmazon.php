@@ -29,11 +29,49 @@
  */
 abstract class ModuleAmazon extends Module
 {
+	// request obj.
+	var $request = NULL;
+	
+	var $priomap = array('lowest' => '-2', 'lower' => '-1', 'medium' => '0', 'higher' => '1', 'high' => '2',);
+
+	/**
+	 * Set default values
+	 */
+	public function __construct(Database_Result $dc)
+	{
+		parent::__construct($dc);
+		$this->request = new AmazonRequest();
+	}
+	
+	protected function decodeTransportURL($fieldname)
+	{
+		return urldecode($this->Input->get($fieldname));
+	}
+	
+	protected function generateTransportURL($localcall, $params, $objPage=NULL)
+	{
+		$url='';
+		foreach($params as $key=>$value)
+			$url .= $key . '=' . urlencode($value) . '&amp;';
+		if($objPage)
+		{
+			$Page = $objPage->row();
+			return $this->generateFrontendUrl($Page, '$amp;amareq=' . urlencode($localcall) . '&amp;' . $url );
+		} else {
+			return $this->addToUrl('amareq=' . urlencode($localcall) . '&amp;' . $url );
+		}
+	}
+ 
 	protected function executeRequest($operation, $parameters)
 	{
-		$request = new AmazonRequest();
-		return $request->executeRequest($operation, $parameters);
+		return $this->request->execute($operation, $parameters);
 	}
+	
+	protected function getRequestURL($operation, $parameters)
+	{
+		return $this->request->prepareURL($operation, $parameters);
+	}
+	
 	
 	protected function compile()
 	{

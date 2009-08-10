@@ -28,8 +28,9 @@
     <dd class="preis"><span class="title"><?php echo $item['price']['label']; ?></span> <?php echo $item['price']['value']; ?></dd>
   </dl>
 </div>
-<?php //var_dump($item['xml']); ?>
+<?php// var_dump($item['xml']); ?>
 <?php endforeach; ?>
-<p class="back"><a href="<?php echo $this->referer; ?>" title="<?php echo $this->back; ?>"><?php echo $this->back; ?></a></p>
+
+<?php echo $this->pagination; ?>
 
 </div>

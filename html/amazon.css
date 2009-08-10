@@ -43,5 +43,5 @@ p.lastmodified {text-align:right;}
 .wishlist .even {background-color: transparent;}
 
 /* first und lasat stylen - zum Schluss um Werte überschreiben zu können */
-.wishlist .first {border-top: 5px solid #666;}
-.wishlist .last {border-bottom: 5px solid #666;}
+.wishlist .first {border-top: 1px double #666;}
+.wishlist .last {border-bottom: 1px double #666;}

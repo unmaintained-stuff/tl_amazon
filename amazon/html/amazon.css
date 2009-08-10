@@ -39,7 +39,7 @@ p.lastmodified {text-align:right;}
 .wishlist dd.price .title {position:static; font-size:75%;}
 
 /* odd and even */
-.wishlist .odd {background-color: #333;}
+.wishlist .odd {background-color: #e7e7e7;}
 .wishlist .even {background-color: transparent;}
 
 /* first and last - at the end for overwriting the settings */
@@ -48,3 +48,8 @@ p.lastmodified {text-align:right;}
 
 /* error style */
 .wishlist .error {border: 1px #009ee0 dashed; background: #abd4ee; padding: 0.5em; }
+
+/* pagination */
+.pagination {padding: 1em;}
+.pagination p {margin: 0; padding: 0.5em 0;}
+.pagination ul li {margin:0; padding: 0 5px; list-style-type: none; display: inline;}

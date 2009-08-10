@@ -6,14 +6,14 @@ p.lastmodified {text-align:right;}
 .wishlist {width: 98%; float:left; }
 .wishlist dl {width: 100%; float:left; padding:0.5em 0; margin:0; border-bottom: 1px dashed; text-align:left;}
 
-/* dt bzw. Bild formatieren */
+/* dt pic formating */
 .wishlist dt.title_item { width:100%; margin: 0; padding: 0.5em;}
 .wishlist dt.title_item .title  {position:absolute; top:-1000em; left:-1000em;}
 
-/* alle dd formatieren */
+/* formating all dd */
 .wishlist dd {margin: 0; padding: 0.2em; float:left; width: 30%}
 
-/* spezielle dt */
+/* formating the specific dd */
 .wishlist dd.pic img { padding: 2px; }
 .wishlist dd.author {}
 .wishlist dd.status {}
@@ -24,10 +24,10 @@ p.lastmodified {text-align:right;}
 .wishlist dd.asin {}
 .wishlist dd.price {font-size:150%;}
 
-/* alle title verstecken */
+/* all title */
 .wishlist dd .title  {position:absolute; top:-1000em; left:-1000em;}
 
-/* title stylen und bei Bedarf wieder anzeigen */
+/* title styling and showing with position static */
 .wishlist dd.bild {width:110px;}
 .wishlist dd.author .title {}
 .wishlist dd.status .title {position:static;}
@@ -38,10 +38,13 @@ p.lastmodified {text-align:right;}
 .wishlist dd.asin .title {position:static;}
 .wishlist dd.price .title {position:static; font-size:75%;}
 
-/* odd und even stylen */
+/* odd and even */
 .wishlist .odd {background-color: #333;}
 .wishlist .even {background-color: transparent;}
 
-/* first und lasat stylen - zum Schluss um Werte überschreiben zu können */
-.wishlist .first {border-top: 1px double #666;}
-.wishlist .last {border-bottom: 1px double #666;}
+/* first and last - at the end for overwriting the settings */
+.wishlist .first {border-top: 3px double #666;}
+.wishlist .last {border-bottom: 3px double #666;}
+
+/* error style */
+.wishlist .error {border: 1px #009ee0 dashed; background: #abd4ee; padding: 0.5em; }

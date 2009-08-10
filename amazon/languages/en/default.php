@@ -25,26 +25,26 @@ $GLOBALS['TL_LANG']['amazon']['listname']			= 'list name';
 $GLOBALS['TL_LANG']['amazon']['listid']				= 'list id';
 $GLOBALS['TL_LANG']['amazon']['totalitems']			= 'total amount';
 $GLOBALS['TL_LANG']['amazon']['totalpages']			= 'amount of pages';
-$GLOBALS['TL_LANG']['amazon']['datecreated']		= 'created on';
-$GLOBALS['TL_LANG']['amazon']['lastmodified']		= 'last changed';
-$GLOBALS['TL_LANG']['amazon']['customername']		= 'owner';
+$GLOBALS['TL_LANG']['amazon']['datecreated']			= 'created on';
+$GLOBALS['TL_LANG']['amazon']['lastmodified']			= 'last changed';
+$GLOBALS['TL_LANG']['amazon']['customername']			= 'owner';
 $GLOBALS['TL_LANG']['amazon']['listitemid']			= 'entry id';
 $GLOBALS['TL_LANG']['amazon']['dateadded']			= 'added on';
-$GLOBALS['TL_LANG']['amazon']['quantitydesired']	= 'wished';
-$GLOBALS['TL_LANG']['amazon']['quantityreceived']	= 'received';
+$GLOBALS['TL_LANG']['amazon']['quantitydesired']		= 'wished';
+$GLOBALS['TL_LANG']['amazon']['quantityreceived']		= 'received';
 $GLOBALS['TL_LANG']['amazon']['priority']			= 'priority';
 $GLOBALS['TL_LANG']['amazon']['asin']				= 'ASIN';
 $GLOBALS['TL_LANG']['amazon']['title']				= 'title';
 $GLOBALS['TL_LANG']['amazon']['price']				= 'price';
-$GLOBALS['TL_LANG']['amazon']['availability']		= 'availability';
+$GLOBALS['TL_LANG']['amazon']['availability']			= 'availability';
 $GLOBALS['TL_LANG']['amazon']['buynow']				= 'buy now!';
 
-$GLOBALS['TL_LANG']['amazon']['wishlistprio']		= array(
-															2 => 'Muss ich haben',
-															1 => 'Hätte ich sehr gerne',
-															0 => 'Würde mich freuen',
-															-1 => 'Bin mir nicht sicher',
-															-2 =>'Nicht so wichtig');
+$GLOBALS['TL_LANG']['amazon']['wishlistprio']			= array(
+									2 => 'Muss ich haben',
+									1 => 'Hätte ich sehr gerne',
+									0 => 'Würde mich freuen',
+									-1 => 'Bin mir nicht sicher',
+									-2 =>'Nicht so wichtig');
 
 
 ?>

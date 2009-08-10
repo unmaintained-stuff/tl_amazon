@@ -21,8 +21,8 @@
 
 $GLOBALS['TL_LANG']['tl_settings']['amazon_legend'] = 'Amazon webservices configuration';
 $GLOBALS['TL_LANG']['tl_settings']['amazonregion'] = array('Amazon server for your location', 'Please select the Amazon WS server you want to use.');
-$GLOBALS['TL_LANG']['tl_settings']['amazonsecretkey'] = array('Your secret key for signing requests', 'Please enter your secret key. This is needed to sign the requests.');
-$GLOBALS['TL_LANG']['tl_settings']['amazonapikey'] = array('Amazon API key', 'Please enter your Amazon API key.');
+$GLOBALS['TL_LANG']['tl_settings']['amazonsecretkey'] = array('Your Secret Access Key for signing requests', 'Please enter your Secret Access Key. This is needed to sign the requests.');
+$GLOBALS['TL_LANG']['tl_settings']['amazonapikey'] = array('Access Key ID', 'Please enter your Amazon Access Key ID.');
 
 $GLOBALS['TL_LANG']['tl_settings']['region'] = array('com' => 'USA', 'co.uk' => 'United Kingdom', 'jp' => 'Japan', 'fr' => 'France', 'de' => 'Germany', 'ca' => 'Canada');
 

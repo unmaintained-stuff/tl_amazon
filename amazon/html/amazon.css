@@ -1,7 +1,7 @@
 /* Amazon Wishlist */
 .mod_amazonwishlist h3 {font-size: 150%; font-weight:normal; margin-bottom:0;}
 .mod_amazonwishlist h3 .name {font-size:75%; display:block;}
-p.geaendert {text-align:right;}
+p.lastmodified {text-align:right;}
 
 .wishlist {width: 98%; float:left; }
 .wishlist dl {width: 100%; float:left; padding:0.5em 0; margin:0; border-bottom: 1px dashed; text-align:left;}
@@ -17,12 +17,12 @@ p.geaendert {text-align:right;}
 .wishlist dd.pic img { padding: 2px; }
 .wishlist dd.author {}
 .wishlist dd.status {}
-.wishlist dd.hinzugefuegt_am {}
-.wishlist dd.gewuenscht {}
-.wishlist dd.erhalten {}
-.wishlist dd.prioritaet {}
+.wishlist dd.dateadded {}
+.wishlist dd.quantitydesired {}
+.wishlist dd.quantityreceived {}
+.wishlist dd.priority {}
 .wishlist dd.asin {}
-.wishlist dd.preis {font-size:150%;}
+.wishlist dd.price {font-size:150%;}
 
 /* alle title verstecken */
 .wishlist dd .title  {position:absolute; top:-1000em; left:-1000em;}
@@ -31,17 +31,17 @@ p.geaendert {text-align:right;}
 .wishlist dd.bild {width:110px;}
 .wishlist dd.author .title {}
 .wishlist dd.status .title {position:static;}
-.wishlist dd.hinzugefuegt_am .title {position:static;}
-.wishlist dd.gewuenscht .title {position:static;}
-.wishlist dd.erhalten .title {position:static;}
-.wishlist dd.prioritaet .title {position:static;}
+.wishlist dd.dateadded .title {position:static;}
+.wishlist dd.quantitydesired .title {position:static;}
+.wishlist dd.quantityreceived .title {position:static;}
+.wishlist dd.priority .title {position:static;}
 .wishlist dd.asin .title {position:static;}
-.wishlist dd.preis .title {position:static; font-size:75%;}
+.wishlist dd.price .title {position:static; font-size:75%;}
 
 /* odd und even stylen */
 .wishlist .odd {background-color: #333;}
 .wishlist .even {background-color: transparent;}
 
 /* first und lasat stylen - zum Schluss um Werte überschreiben zu können */
-.wishlist .first {border-top: 5px solid #666;}
-.wishlist .last {border-bottom: 5px solid #666;}
+.wishlist .first {border-top: 1px double #666;}
+.wishlist .last {border-bottom: 1px double #666;}

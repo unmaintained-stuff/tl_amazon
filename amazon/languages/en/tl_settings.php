@@ -20,6 +20,7 @@
  */
 
 $GLOBALS['TL_LANG']['tl_settings']['amazon_legend'] = 'Amazon webservices configuration';
+$GLOBALS['TL_LANG']['tl_settings']['amazoncaching'] = array('Caching of data', 'Please specify how long (in seconds) retrieved data shall be cached. A value of 0 disables the cache altogether.');
 $GLOBALS['TL_LANG']['tl_settings']['amazonregion'] = array('Amazon server for your location', 'Please select the Amazon WS server you want to use.');
 $GLOBALS['TL_LANG']['tl_settings']['amazonsecretkey'] = array('Your Secret Access Key for signing requests', 'Please enter your Secret Access Key. This is needed to sign the requests.');
 $GLOBALS['TL_LANG']['tl_settings']['amazonapikey'] = array('Access Key ID', 'Please enter your Amazon Access Key ID.');

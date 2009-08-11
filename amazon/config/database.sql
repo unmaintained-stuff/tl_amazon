@@ -17,3 +17,13 @@ CREATE TABLE `tl_module` (
   `amazonwishlisttemplate` varchar(255) NOT NULL default '',
   `amazonperpage` int(3) NOT NULL default '0',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tl_amazon_cache` (
+  `id` int(10) unsigned NOT NULL auto_increment,  
+  `hashkey` varchar(255) NOT NULL default '',
+  `tstamp` int(10) unsigned NOT NULL default '0',
+  `data` text NULL
+  PRIMARY KEY  (`id`), 
+  KEY `tstamp` (`tstamp`),
+  KEY `hashkey` (`hashkey`) 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

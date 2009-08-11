@@ -21,5 +21,7 @@
 
 $GLOBALS['TL_LANG']['tl_module']['amazon_legend'] = 'Amazon Webservices Konfiguration';
 $GLOBALS['TL_LANG']['tl_module']['amazonlistid'] = array('Id der Liste bei Amazon.', 'Bitte geben Sie die Id der Liste bei Amazon ein.');
+$GLOBALS['TL_LANG']['tl_module']['amazonperpage'] = array('Anzahl Items pro Seite', 'Bitte geben Sie hier die Anzahl der anzuzeigenden Einträge an. Wenn Sie 0 eingeben, werden alle angezeigt.');
+$GLOBALS['TL_LANG']['tl_module']['amazonwishlisttemplate'] = array('Template', 'Wählen Sie bitte das Template.');
 
 ?>

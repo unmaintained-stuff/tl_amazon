@@ -32,7 +32,7 @@ abstract class ModuleAmazon extends Module
 	// request obj.
 	var $request = NULL;
 	
-	var $priomap = array('lowest' => '-2', 'lower' => '-1', 'medium' => '0', 'higher' => '1', 'high' => '2',);
+	var $priomap = array('lowest' => '-2', 'lower' => '-1', 'medium' => '0', 'higher' => '1', 'highest' => '2',);
 
 	/**
 	 * Set default values

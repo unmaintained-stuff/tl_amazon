@@ -24,7 +24,7 @@
  * Add palettes to tl_settings
  */
 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{amazon_legend:hide},secretkey,apikey,amazonregion';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{amazon_legend:hide},secretkey,apikey,amazonregion,amazoncaching';
 
 /**
  * Add fields to tl_settings
@@ -55,6 +55,13 @@ array_insert($GLOBALS['TL_DCA']['tl_settings']['fields'] , 1, array
 		'inputType'					=> 'text',
 		'default'					=> '',
 		array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
+	),
+	'amazoncaching' => array
+	(
+		'label'						=> &$GLOBALS['TL_LANG']['tl_settings']['amazoncaching'],
+		'exclude'					=> true,
+		'inputType'					=> 'text',
+		'eval'						=> array('rgxp'=>'digit', 'nospace'=>true)
 	),
 ));
 

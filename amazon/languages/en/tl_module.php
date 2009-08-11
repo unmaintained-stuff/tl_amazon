@@ -21,5 +21,7 @@
 
 $GLOBALS['TL_LANG']['tl_module']['amazon_legend'] = 'Amazon webservices configuration';
 $GLOBALS['TL_LANG']['tl_module']['amazonlistid'] = array('List id by Amazon.', 'Please enter the id of the list you got from Amazon.');
+$GLOBALS['TL_LANG']['tl_module']['amazonperpage'] = array('Amount of items to display', 'Please enter the desired amount you want to have visible. If you specify 0, all will be displayed.');
+$GLOBALS['TL_LANG']['tl_module']['amazonwishlisttemplate'] = array('Template', 'Please choose the template.');
 
 ?>

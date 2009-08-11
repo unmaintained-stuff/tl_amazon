@@ -27,7 +27,7 @@
  * @package		Controller
  *
  */
-class AmazonRequest extends Request
+class AmazonRequest extends Frontend
 {
 	
 		/*
@@ -100,21 +100,32 @@ class AmazonRequest extends Request
 		return $content;
 	}
 
-	public function execute($operation, $params)
+	public function execute($operation, $params, $useCache=false)
 	{
+		if($useCache && ((int)$GLOBALS['TL_CONFIG']['amazoncaching'])>0)
+		{
+			$cachekey=$this->cacheKey($operation, $params);
+			$xml=$this->fetchFromCache($cachekey);
+			// if we got something, return it.
+			if($xml)
+				return $xml;
+		}
+		// nothing from cache? do it the hard way.
 		// fetch data from amazon.
 		$url=$this->prepareURL($operation, $params);
 		$objRequest = new Request();
 		$objRequest->send($url);
-		// content is most likely encoded as chunked, fix this.
+		// content is most likely encoded as chunked, if so fix this.
 		if(array_key_exists('Transfer-Encoding', $objRequest->headers) && $objRequest->headers['Transfer-Encoding'] == 'chunked')
-			$xml = $this->decode_chunked($objRequest->response);
+			$response = $this->decode_chunked($objRequest->response);
 		else
-			$xml=$objRequest->response;
+			$response = $objRequest->response;
 		if (!$objRequest->hasError())
 		{
 			try {
-				$xml = new SimpleXMLElement($xml);
+				$xml = simplexml_load_string($response);
+				if(((int)$GLOBALS['TL_CONFIG']['amazoncaching'])>0)
+					$this->addToCache($cachekey, $response);
 				return $xml;
 			} catch (Exception $e) {
 				return false;
@@ -124,9 +135,42 @@ class AmazonRequest extends Request
 		}
 	}
 	
+	protected function cacheKey($operation, $params)
+	{
+		return md5($operation . serialize($params));
+	}
+	
+	protected function addToCache($key, $data)
+	{
+		if($data instanceof SimpleXMLElement)
+			$data=$data->asXML();
+		$this->import('Database');	
+		// add the given data to the cache table
+		$this->Database->prepare('INSERT INTO tl_amazon_cache (tstamp, hashkey, data) VALUES (?, ?, ?)')
+						->execute(time(), $key, $data);
+	}
+	
+	protected function fetchFromCache($key)
+	{
+		$this->import('Database');	
+		// expunge stuff from cache that are expired.
+		$this->Database->prepare("DELETE FROM tl_amazon_cache WHERE tstamp<?")
+					   ->execute((time() - ((int)$GLOBALS['TL_CONFIG']['amazoncaching'])));
+
+		// check if request is in cache, if it is, return it.
+		$data=$this->Database->prepare('SELECT * FROM tl_amazon_cache WHERE hashkey=?')
+						->execute($key);
+		if($data->next() && strlen($data->data))
+		{
+			return simplexml_load_string($data->data);
+		}
+		return false;
+	}
+	
 	public function loadList($params)
 	{
-		return $this->execute('ListLookup', $params);
+		$list=$this->execute('ListLookup', $params, true);
+		return $list;
 	}
 	
 	public function addItemToCart($params, $cartID=NULL)
@@ -136,7 +180,7 @@ class AmazonRequest extends Request
 			// no cart yet, we have to create a new one.
 			$operation='CartCreate';
 		}
-			
+		// NOTE: Do not cache, under no circumstances ever consider this. :)
 		return $this->execute($operation, $params);
 	}
 

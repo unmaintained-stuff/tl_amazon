@@ -206,12 +206,14 @@ class ModuleAmazonWishlist extends ModuleAmazon
 											'label' => $GLOBALS['TL_LANG']['amazon']['price'],
 											'value' => $price
 											),
-					'buynow'				=> array(
+					'buynow'			=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['buynow'],
 											'url' => $buyurl,
-											'link' => '',
+											'value' => '<a class="amazon link" href="' . $buyurl . '">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</a>',
 											),
-					'xml'				=> $node->asXML(),
+					'xml'				=> array(
+											'value'	=> $node->asXML(),
+											),
 				);
 	}
 
@@ -261,83 +263,86 @@ class ModuleAmazonWishlist extends ModuleAmazon
 
 		// load listinfo
 		$xml=$this->loadListInfo($this->amazonlistid);
-		if($xml instanceof SimpleXMLElement)
+		if(!($xml instanceof SimpleXMLElement))
 		{
-			$this->Template->isValid=$xml->Lists->Request->IsValid=='True';
-			$this->Template->listName = (string)$xml->Lists->List->ListName;
-			if($this->Template->isValid)
-			{
-				$list=$xml->Lists->List;
-				$this->Template->list=$this->convertList($list);
-
-				// amazon enforces a limit of 300 items per list.
-				$wantedamount = (int)(($this->amazonperpage < 300) ? $this->amazonperpage : 0);
-				
-				// check if the list is shorter than what we want., if so we need to shrink.
-				if($this->Template->list['totalitems']['value'] < $wantedamount)
-					$wantedamount = ((int)$this->Template->list['totalitems']['value']);
-
-				// check if we have pagination.
-				if($this->Input->get('page')>0)
-					$startitem = (int)($this->Input->get('page')-1) * (int)($this->amazonperpage);
-				else
-					$startitem = 0;				
-				// calculate first page from amazon
-				$thisPage = (int)floor($startitem / 10)+1;
-				// first item we want to show
-				$thisItem = (int)(($thisPage-1) * 10);
-				$even=true;
-				$items=array();
-/*
-				echo "<br /><br /><br /><br /><br /><br /><br /><br />";
-				echo "Brauche: "; var_dump($wantedamount);
-				echo "Beginne auf Seite: "; var_dump($thisPage);
-				echo "Erstes ist: "; var_dump($thisItem);
-				echo "Beginne mit Item: "; var_dump($startitem);
-*/
-				// now off to amazon.
-				while(count($items) < $wantedamount)
-				{
-					$xml=$this->loadList($this->amazonlistid, $thisPage);
-					// check if list is valid.
-					if($xml instanceof SimpleXMLElement)
-					{
-						$list = $xml->Lists->List;
-						if((int)$list->TotalItems)
-						{
-							// we got items.
-							foreach ($xml->Lists->List->ListItem as $node)
-							{
-								// only add if start item has been reached yet.
-								if($thisItem >= $startitem)
-								{
-									$item=$this->convertItem($node);
-									$item['class'] = ($even ? 'even' : 'odd') . ((count($items)==0) ? ' first' : '');
-									$items[] = $item;
-									$even = !$even;
-									if(count($items) >= $wantedamount)
-										break;
-								}
-								$thisItem++;
-							}
-						} else {
-							break;
-						}
-						// ready to go for next page.
-						$thisPage++;
-					} else {
-						break;
-					}
-				}
-				if(count($items)>0)
-					$items[count($items)-1]['class'] .= ' last';
-				$this->Template->items = $items;
-			} else {
-				$this->Template->listName = 'ERROR: xml is invalid ' . $xml->Lists->Request->IsValid;
-			}
-		} else {
 			$this->Template->listName = 'ERROR: xml is a ' . get_class($xml);
+			return;
 		}
+		
+		$this->Template->isValid=$xml->Lists->Request->IsValid=='True';
+		$this->Template->listName = (string)$xml->Lists->List->ListName;
+		
+		if(!$this->Template->isValid)
+		{
+			$this->Template->listName = 'ERROR: xml is invalid ' . $xml->Lists->Request->IsValid;
+			return;
+		}
+
+		$list=$xml->Lists->List;
+		$this->Template->list=$this->convertList($list);
+		$this->amazonperpage = (int)($this->amazonperpage);
+
+		// amazon enforces a limit of 300 items per list.
+		$wantedamount = (($this->amazonperpage < 300) ? $this->amazonperpage : 0);
+		// check if the list is shorter than what we want., if so we need to shrink.
+		if(((int)$this->Template->list['totalitems']['value']) < $wantedamount)
+			$wantedamount = ((int)$this->Template->list['totalitems']['value']);
+		// check if we have pagination.
+		if($this->Input->get('page')>0)
+			$startitem = (int)($this->Input->get('page')-1) * $this->amazonperpage;
+		else
+			$startitem = 0;				
+		// calculate first page from amazon
+		$thisPage = (int)floor($startitem / 10)+1;
+		// first item we want to show
+		$thisItem = (int)(($thisPage-1) * 10);
+		$even=true;
+		$items=array();
+
+/*
+		echo "<br /><br /><br /><br /><br /><br /><br /><br />";
+		echo "Brauche: "; var_dump($wantedamount);
+		echo "Beginne auf Seite: "; var_dump($thisPage);
+		echo "Erstes ist: "; var_dump($thisItem);
+		echo "Beginne mit Item: "; var_dump($startitem);
+*/
+		// now off to amazon.
+		while(count($items) < $wantedamount)
+		{
+			$xml=$this->loadList($this->amazonlistid, $thisPage);
+			// check if list is valid.
+			if(($xml instanceof SimpleXMLElement) && ((int)$xml->Lists->List->TotalItems>0))
+			{
+				$i=0;
+				$list=$xml->Lists->List;
+				// we got items.
+				foreach ($list->ListItem as $node)
+				{
+					// only add if start item has been reached yet.
+					if($thisItem >= $startitem)
+					{
+						$item=$this->convertItem($node);
+						$item['class'] = ($even ? 'even' : 'odd') . ((count($items)==0) ? ' first' : '');
+						$items[] = $item;
+						$even = !$even;
+						if(count($items) >= $wantedamount)
+							break;
+					}
+					$thisItem++;$i++;
+				}
+				// if we got less than 10 items, we were on the last page, we have to break then.
+				if($i<10)
+					break;
+				// ready to go for next page.
+				$thisPage++;
+			} else {
+				// no xml or empty list found, exit.
+				break;
+			}
+		}
+		if(count($items)>0)
+			$items[count($items)-1]['class'] .= ' last';
+		$this->Template->items = $items;
 		return;
 	}
 

@@ -38,7 +38,7 @@ array_insert($GLOBALS['TL_DCA']['tl_settings']['fields'] , 1, array
 		'inputType'					=> 'select',
 		'options_callback'			=> array('tl_settings_amazon', 'getServers'),
 		'default'					=> '',
-		array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
+		'eval'						=> array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
 	),
 	'secretkey' => array
 	(
@@ -46,7 +46,7 @@ array_insert($GLOBALS['TL_DCA']['tl_settings']['fields'] , 1, array
 		'exclude'					=> true,
 		'inputType'					=> 'text',
 		'default'					=> '',
-		array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
+		'eval'						=> array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
 	),
 	'apikey' => array
 	(
@@ -54,14 +54,15 @@ array_insert($GLOBALS['TL_DCA']['tl_settings']['fields'] , 1, array
 		'exclude'					=> true,
 		'inputType'					=> 'text',
 		'default'					=> '',
-		array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
+		'eval'						=> array('mandatory'=>true, 'nospace'=>true, 'tl_class'=>'w50')
 	),
 	'amazoncaching' => array
 	(
 		'label'						=> &$GLOBALS['TL_LANG']['tl_settings']['amazoncaching'],
 		'exclude'					=> true,
 		'inputType'					=> 'text',
-		'eval'						=> array('rgxp'=>'digit', 'nospace'=>true)
+		'default'					=> '3600',
+		'eval'						=> array('rgxp'=>'digit', 'nospace'=>true, 'tl_class'=>'w50')
 	),
 ));
 

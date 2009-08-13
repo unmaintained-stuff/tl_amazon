@@ -124,7 +124,7 @@ class AmazonRequest extends Frontend
 		{
 			try {
 				$xml = simplexml_load_string($response);
-				if(((int)$GLOBALS['TL_CONFIG']['amazoncaching'])>0)
+				if($useCache && ((int)$GLOBALS['TL_CONFIG']['amazoncaching'])>0)
 					$this->addToCache($cachekey, $response);
 				return $xml;
 			} catch (Exception $e) {

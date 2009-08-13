@@ -33,6 +33,19 @@ abstract class ModuleAmazon extends Module
 	var $request = NULL;
 	
 	var $priomap = array('lowest' => '-2', 'lower' => '-1', 'medium' => '0', 'higher' => '1', 'highest' => '2',);
+	
+	protected function ConvertDateToTimestamp($date)
+	{
+		// convert YYYY-mm-dd to timestamp.
+		return mktime(0, 0, 0, substr($date, 5, 2), substr($date, 8, 2), substr($date, 0, 4));
+	}
+
+	protected function ConvertDate($date)
+	{
+		// convert YYYY-mm-dd to timestamp and then to tl compatible format.
+		return $this->parseDate($GLOBALS['TL_CONFIG']['dateFormat'], $this->ConvertDateToTimestamp($date));
+		
+	}
 
 	/**
 	 * Set default values
@@ -52,11 +65,13 @@ abstract class ModuleAmazon extends Module
 	{
 		$url='';
 		foreach($params as $key=>$value)
-			$url .= $key . '=' . urlencode($value) . '&amp;';
+			if(strlen($key))
+				$url .= $key . '=' . urlencode($value) . '&amp;';
+		$url = substr($url, 0, -5);
 		if($objPage)
 		{
 			$Page = $objPage->row();
-			return $this->generateFrontendUrl($Page, '$amp;amareq=' . urlencode($localcall) . '&amp;' . $url );
+			return $this->generateFrontendUrl($Page, '&amp;amareq=' . urlencode($localcall) . '&amp;' . $url );
 		} else {
 			return $this->addToUrl('amareq=' . urlencode($localcall) . '&amp;' . $url );
 		}

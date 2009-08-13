@@ -37,4 +37,6 @@ $GLOBALS['TL_CONFIG']['amazon']['AMAZON_ECS_SCHEMA']	= '2009-03-31';
 $GLOBALS['TL_CONFIG']['amazon']['AMAZON_PARTICIPANT_TYPES']	= 'Author,Artist,Actor,Director,Creator';
 $GLOBALS['TL_CONFIG']['amazon']['locales'] = array('com', 'co.uk', 'jp', 'fr', 'de', 'ca'); 
 
+$GLOBALS['TL_CACHE']['amazon']='tl_amazon_cache';
+
 ?>

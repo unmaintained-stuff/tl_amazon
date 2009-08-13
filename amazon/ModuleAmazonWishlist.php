@@ -53,8 +53,9 @@ class ModuleAmazonWishlist extends ModuleAmazon
 													'ListId' => $amazonlistid, 
 													'ResponseGroup' => 'ListFull,Offers', 
 													'Sort' => 'DateAdded', 
-													//'IsOmitPurchasedItems' => 1
 													);
+		if($this->amazonshowpurchased)
+			$req['IsOmitPurchasedItems'] = 1;
 		if($page>0)
 			$req['ProductPage'] = $page;
 		return $this->request->loadList($req);
@@ -62,6 +63,8 @@ class ModuleAmazonWishlist extends ModuleAmazon
 
 	protected function buyWishListItemAndRedirect()
 	{
+		// NOTE: I do not know if we can use the OfferListingId from a previous call, maybe we should refresh it here.
+		
 		// first, send request to amazon
 		// This is based upon information form amazon forum:
 		// http://developer.amazonwebservices.com/connect/thread.jspa?messageID=34988&#34988
@@ -79,8 +82,8 @@ class ModuleAmazonWishlist extends ModuleAmazon
 			{
 				// third, redirect user to amazon checkout.
 				$this->redirect((string)$xml->Cart->PurchaseURL);
-			} else { die('cart is invalid.'); }
-		} else { die('xml is invalid.'); }
+			} else { return 'cart is invalid.'; }
+		} else { return 'xml is invalid.' . $xml; }
 	}
 	
 	protected function convertList($list)
@@ -117,11 +120,11 @@ class ModuleAmazonWishlist extends ModuleAmazon
 							),
 				'datecreated' => array(
 								'label' => $GLOBALS['TL_LANG']['amazon']['datecreated'], 
-								'value' => (string)$list->DateCreated
+								'value' => $this->ConvertDate((string)$list->DateCreated)
 							),
 				'lastmodified' => array(
 								'label' => $GLOBALS['TL_LANG']['amazon']['lastmodified'], 
-								'value' => (string)$list->LastModified
+								'value' => $this->ConvertDate((string)$list->LastModified)
 							),
 				'customername' => array(
 								'label' => $GLOBALS['TL_LANG']['amazon']['customername'], 
@@ -133,7 +136,6 @@ class ModuleAmazonWishlist extends ModuleAmazon
 
 	protected function convertItem($node)
 	{
-		// mktime(0, 0, 0, dd, mm, yyyy)
 		$title = (string)$node->Item->ItemAttributes->Title;
 	
 		$asin = ((string)$node->Item->ASIN);
@@ -174,7 +176,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 											),
 					'dateadded'			=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['dateadded'], 
-											'value' => (string)$node->DateAdded
+											'value' => $this->ConvertDate((string)$node->DateAdded)
 											),
 					'quantitydesired'	=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['quantitydesired'], 
@@ -209,7 +211,8 @@ class ModuleAmazonWishlist extends ModuleAmazon
 					'buynow'			=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['buynow'],
 											'url' => $buyurl,
-											'value' => '<a class="amazon link" href="' . $buyurl . '">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</a>',
+											'value' => (strlen($buyurl) ? '<a class="amazonbuy link" href="' . $buyurl . '">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</a>'
+																		: '<span class="amazonbuy">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</span>'),
 											),
 					'xml'				=> array(
 											'value'	=> $node->asXML(),
@@ -283,7 +286,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 		$this->amazonperpage = (int)($this->amazonperpage);
 
 		// amazon enforces a limit of 300 items per list.
-		$wantedamount = (($this->amazonperpage < 300) ? $this->amazonperpage : 0);
+		$wantedamount = (($this->amazonperpage < 300) && ($this->amazonperpage > 0) ? $this->amazonperpage : 300);
 		// check if the list is shorter than what we want., if so we need to shrink.
 		if(((int)$this->Template->list['totalitems']['value']) < $wantedamount)
 			$wantedamount = ((int)$this->Template->list['totalitems']['value']);

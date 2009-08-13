@@ -24,7 +24,7 @@
  * Add palettes to tl_module
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['amazonwishlist']    = '{title_legend},name,headline,type;{amazon_legend},amazonlistid,amazonwishlisttemplate,amazonperpage;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['amazonwishlist']    = '{title_legend},name,headline,type;{amazon_legend},amazonlistid,amazonwishlisttemplate,amazonperpage,amazonshowpurchased;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add fields to tl_module
@@ -37,7 +37,21 @@ array_insert($GLOBALS['TL_DCA']['tl_module']['fields'] , 1, array
 		'exclude'					=> true,
 		'inputType'					=> 'text',
 		'default'               	=> '',
-		'eval'						=> array('mandatory'=>true, 'maxlength'=>255)
+		'eval'						=> array('tl_class'=>'w50', 'mandatory'=>true, 'maxlength'=>255)
+	),
+	'amazonperpage' => array
+	(
+		'label'						=> &$GLOBALS['TL_LANG']['tl_module']['amazonperpage'],
+		'exclude'					=> true,
+		'inputType'					=> 'text',
+		'eval'						=> array('tl_class'=>'w50', 'rgxp'=>'digit', 'nospace'=>true)
+	),
+	'amazonshowpurchased' => array
+	(
+		'label'						=> &$GLOBALS['TL_LANG']['tl_module']['amazonshowpurchased'],
+		'exclude'					=> true,
+		'inputType'					=> 'checkbox',
+		'eval'						=> array('tl_class'=>'w50')
 	),
 	'amazonwishlisttemplate' => array
 	(
@@ -47,13 +61,6 @@ array_insert($GLOBALS['TL_DCA']['tl_module']['fields'] , 1, array
 		'inputType'					=> 'select',
 		'options'					=> $this->getTemplateGroup('mod_amazon_wishlist'),
 		'eval'						=> array('tl_class'=>'w50')
-	),
-	'amazonperpage' => array
-	(
-		'label'						=> &$GLOBALS['TL_LANG']['tl_module']['amazonperpage'],
-		'exclude'					=> true,
-		'inputType'					=> 'text',
-		'eval'						=> array('rgxp'=>'digit', 'nospace'=>true)
 	),
 ));
 

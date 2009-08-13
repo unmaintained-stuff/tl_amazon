@@ -43,6 +43,8 @@ class ModuleAmazonWishlist extends ModuleAmazon
 													'ResponseGroup' => 'ListInfo', 
 													'Sort' => 'DateAdded', 
 													);
+		if(!$this->amazonshowpurchased)
+			$req['IsOmitPurchasedItems'] = 1;
 		return $this->request->loadList($req);
 	}
 
@@ -54,7 +56,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 													'ResponseGroup' => 'ListFull,Offers', 
 													'Sort' => 'DateAdded', 
 													);
-		if($this->amazonshowpurchased)
+		if(!$this->amazonshowpurchased)
 			$req['IsOmitPurchasedItems'] = 1;
 		if($page>0)
 			$req['ProductPage'] = $page;

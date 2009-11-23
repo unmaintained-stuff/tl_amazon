@@ -304,16 +304,10 @@ class ModuleAmazonWishlist extends ModuleAmazon
 		$even=true;
 		$items=array();
 
-/*
-		echo "<br /><br /><br /><br /><br /><br /><br /><br />";
-		echo "Brauche: "; var_dump($wantedamount);
-		echo "Beginne auf Seite: "; var_dump($thisPage);
-		echo "Erstes ist: "; var_dump($thisItem);
-		echo "Beginne mit Item: "; var_dump($startitem);
-*/
-		// now off to amazon.
+		// loop until we have the desired amount of items.
 		while(count($items) < $wantedamount)
 		{
+			// now off to amazon.
 			$xml=$this->loadList($this->amazonlistid, $thisPage);
 			// check if list is valid.
 			if(($xml instanceof SimpleXMLElement) && ((int)$xml->Lists->List->TotalItems>0))

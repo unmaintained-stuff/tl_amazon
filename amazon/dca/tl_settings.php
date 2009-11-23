@@ -73,7 +73,6 @@ class tl_settings_amazon extends Backend
 		foreach($GLOBALS['TL_CONFIG']['amazon']['locales'] as $key)
 		{
 			$result[$key] = $GLOBALS['TL_LANG']['tl_settings']['region'][$key];
-;
 		}
 		return $result;
 	}

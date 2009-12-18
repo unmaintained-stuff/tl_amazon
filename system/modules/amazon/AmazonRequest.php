@@ -30,13 +30,22 @@
 class AmazonRequest extends Frontend
 {
 	
-		/*
-		Parameters:
-		$region - the Amazon(r) region (ca,com,co.uk,de,fr,jp)
-		$params - an array of parameters, eg. array("Operation"=>"ItemLookup", "ItemId"=>"B000X9FLKM", "ResponseGroup"=>"Small")
-		$public_key - your "Access Key ID"
-		$private_key - your "Secret Access Key"
-		*/
+	var $objRequest = NULL;
+	
+	public function __construct()
+	{
+		parent::__construct();
+		$this->objRequest = new RequestExtended();
+	}
+
+
+	/*
+	Parameters:
+	$region - the Amazon(r) region (ca,com,co.uk,de,fr,jp)
+	$params - an array of parameters, eg. array("Operation"=>"ItemLookup", "ItemId"=>"B000X9FLKM", "ResponseGroup"=>"Small")
+	$public_key - your "Access Key ID"
+	$private_key - your "Secret Access Key"
+	*/
 	function aws_signed($region, $params, $public_key, $private_key)
 	{
 		// based upon code copyright (c) 2009 Ulrich Mierendorff
@@ -76,28 +85,8 @@ class AmazonRequest extends Frontend
 		if(!is_array($params))
 			return '';
 		$params += array('Operation' => $operation);
-		// TODO: add associat ID support here.
-		// $parameters += array('AssociateTag' => $associate_id,);
 		$region = $GLOBALS['TL_CONFIG']['amazonregion'] ? $GLOBALS['TL_CONFIG']['amazonregion'] : $GLOBALS['TL_CONFIG']['amazon']['default'];
 		return $this->aws_signed($region, $params, $GLOBALS['TL_CONFIG']['apikey'],  $GLOBALS['TL_CONFIG']['secretkey']);
-	}
-
-	private function decode_chunked($string=null) {
-		$lines = explode("\r\n",$string);
-		$i=0;
-		$length = 999;
-		$content = '';
-		foreach($lines as $line) {
-			$i++;
-			if ($i%2 == 1) {
-				$length = hexdec($line);
-			} elseif ($length == strlen($line)) {
-			$content .= $line;
-		}
-			if ($length == 0)
-				break;
-		}
-		return $content;
 	}
 
 	public function execute($operation, $params, $useCache=false)
@@ -113,13 +102,10 @@ class AmazonRequest extends Frontend
 		// nothing from cache? do it the hard way.
 		// fetch data from amazon.
 		$url=$this->prepareURL($operation, $params);
-		$objRequest = new Request();
-		$objRequest->send($url);
-		// content is most likely encoded as chunked, if so fix this.
-		if(array_key_exists('Transfer-Encoding', $objRequest->headers) && $objRequest->headers['Transfer-Encoding'] == 'chunked')
-			$response = $this->decode_chunked($objRequest->response);
-		else
-			$response = $objRequest->response;
+		// $objRequest = new RequestExtended();
+		$objRequest = $this->objRequest;
+		$objRequest->getUrlEncoded($url);
+		$response = $objRequest->response;
 		if (!$objRequest->hasError())
 		{
 			try {
@@ -183,7 +169,5 @@ class AmazonRequest extends Frontend
 		// NOTE: Do not cache, under no circumstances ever consider this. :)
 		return $this->execute($operation, $params);
 	}
-
-	
 };
 ?>

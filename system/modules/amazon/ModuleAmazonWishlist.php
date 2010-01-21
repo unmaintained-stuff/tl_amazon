@@ -143,7 +143,6 @@ class ModuleAmazonWishlist extends ModuleAmazon
 		$asin = ((string)$node->Item->ASIN);
 		// 'srcthumb'	=> 'http://images.amazon.com/images/P/' . ((string)$node->Item->ASIN) . '.01.jpg',
 		// 'srclarge'	=> 'http://images.amazon.com/images/P/' . ((string)$node->Item->ASIN) . '.01.LZZZZZZZ.jpg',
-		// http://ecx.images-amazon.com/images/I/51CANS0ypRL._SL500_AA240_.jpg
 		$thumb = 'http://ecx.images-amazon.com/images/P/' . $asin . '.01.jpg';
 		$large = 'http://ecx.images-amazon.com/images/P/' . $asin . '.01.LZZZZZZZ.jpg';
 		$img = '<img src="'.$large.'" alt="'.$title.'" width="60" />';
@@ -213,7 +212,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 					'buynow'			=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['buynow'],
 											'url' => $buyurl,
-											'value' => (strlen($buyurl) ? '<a class="amazonbuy link" href="' . $buyurl . '">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</a>'
+											'value' => (strlen($buyurl) ? '<a class="amazonbuy link" rel="nofollow" href="' . $buyurl . '">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</a>'
 																		: '<span class="amazonbuy">' . $GLOBALS['TL_LANG']['amazon']['buynow'] . '</span>'),
 											),
 					'xml'				=> array(

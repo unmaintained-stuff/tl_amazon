@@ -17,6 +17,7 @@ CREATE TABLE `tl_module` (
   `amazonwishlisttemplate` varchar(255) NOT NULL default '',
   `amazonperpage` int(3) NOT NULL default '0',
   `amazonshowpurchased` int(1) NOT NULL default '0',
+  `amazonsortby` varchar(32) NOT NULL default '',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tl_amazon_cache` (

@@ -24,7 +24,7 @@
  * Add palettes to tl_module
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['amazonwishlist']    = '{title_legend},name,headline,type;{amazon_legend},amazonlistid,amazonwishlisttemplate,amazonperpage,amazonshowpurchased;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['amazonwishlist']    = '{title_legend},name,headline,type;{amazon_legend},amazonlistid,amazonwishlisttemplate,amazonperpage,amazonshowpurchased,amazonsortby;{protected_legend:hide},protected;{expert_legend:hide},guests,cssID,space';
 
 /**
  * Add fields to tl_module
@@ -51,6 +51,14 @@ array_insert($GLOBALS['TL_DCA']['tl_module']['fields'] , 1, array
 		'label'						=> &$GLOBALS['TL_LANG']['tl_module']['amazonshowpurchased'],
 		'exclude'					=> true,
 		'inputType'					=> 'checkbox',
+		'eval'						=> array('tl_class'=>'w50')
+	),
+	'amazonsortby' => array
+	(
+		'label'						=> &$GLOBALS['TL_LANG']['tl_module']['amazonsortby'],
+		'exclude'					=> true,
+		'inputType'					=> 'select',
+		'options'					=> array('DateAdded', 'LastUpdated', 'Price', 'Priority'),
 		'eval'						=> array('tl_class'=>'w50')
 	),
 	'amazonwishlisttemplate' => array

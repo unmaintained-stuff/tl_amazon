@@ -41,7 +41,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 													'ListType' => 'WishList', 
 													'ListId' => $amazonlistid, 
 													'ResponseGroup' => 'ListInfo', 
-													'Sort' => 'DateAdded', 
+													'Sort' => $this->amazonsortby, 
 													);
 		if(!$this->amazonshowpurchased)
 			$req['IsOmitPurchasedItems'] = 1;
@@ -54,7 +54,7 @@ class ModuleAmazonWishlist extends ModuleAmazon
 													'ListType' => 'WishList', 
 													'ListId' => $amazonlistid, 
 													'ResponseGroup' => 'ListFull,Offers', 
-													'Sort' => 'DateAdded', 
+													'Sort' => $this->amazonsortby, 
 													);
 		if(!$this->amazonshowpurchased)
 			$req['IsOmitPurchasedItems'] = 1;
@@ -181,11 +181,11 @@ class ModuleAmazonWishlist extends ModuleAmazon
 											),
 					'quantitydesired'	=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['quantitydesired'], 
-											'value' => (string)$node->QuantityDesired
+											'value' => (int)$node->QuantityDesired
 											),
 					'quantityreceived'	=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['quantityreceived'], 
-											'value' => (string)$node->QuantityReceived
+											'value' => (int)$node->QuantityReceived
 											),
 					'priority'			=> array(
 											'label' => $GLOBALS['TL_LANG']['amazon']['priority'], 
@@ -292,10 +292,10 @@ class ModuleAmazonWishlist extends ModuleAmazon
 		if(((int)$this->Template->list['totalitems']['value']) < $wantedamount)
 			$wantedamount = ((int)$this->Template->list['totalitems']['value']);
 		// check if we have pagination.
-		if($this->Input->get('page')>0)
+		if(isset($_GET['page']))
 			$startitem = (int)($this->Input->get('page')-1) * $this->amazonperpage;
 		else
-			$startitem = 0;				
+			$startitem = 0;
 		// calculate first page from amazon
 		$thisPage = (int)floor($startitem / 10)+1;
 		// first item we want to show

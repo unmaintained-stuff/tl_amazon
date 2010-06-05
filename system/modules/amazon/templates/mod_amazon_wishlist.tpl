@@ -14,9 +14,9 @@
   <div class="item wishlist">
     <dl class="<?php echo $item['class']; ?>">
       <dt class="title_item">
-	<a href="<?php echo $item['buynow']['url']; ?>" title="<?php echo $item['buynow']['label']; ?>">
+<?php if($item['quantitydesired']['value']!=$item['quantityreceived']['value']): ?>	<a href="<?php echo $item['buynow']['url']; ?>" title="<?php echo $item['buynow']['label']; ?>"><?php endif; ?>
 	  <span class="title"><?php echo $item['title']['label']; ?></span> <?php echo $item['title']['value']; ?>
-      </a>
+<?php if($item['quantitydesired']['value']!=$item['quantityreceived']['value']): ?>      </a><?php endif; ?>
       </dt>
       <dd class="pic">
 	<?php echo $item['image']['lightbox']; ?>
